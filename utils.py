@@ -1,3 +1,5 @@
+from math import floor
+
 sterling_dict = {}
 
 def sterling(k, r):
