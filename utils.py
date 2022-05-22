@@ -7,7 +7,7 @@ def sterling(k, r):
 
     res = sterling_dict.get(k, r)
     if res == None:
-        res = sterling(k-1, r-1) * r * sterling(k-1, r)
+        res = sterling(k-1, r-1) + r * sterling(k-1, r)
         sterling_dict[(k, r)] = res
 
     return res

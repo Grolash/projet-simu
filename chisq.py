@@ -1,11 +1,37 @@
-
+from scipy.stats import chi2
 
 alphas = [0.1, 0.05, 0.01, 0.001]
-critical_levels = {9: {0.1: 14.684, 0.05: 16.919, 0.01: 21.666, 0.001: 27.877},
-                   5: {0.1: 9.236, 0.05: 11.070, 0.01: 15.086, 0.001: 20.515}}
 
 
+def adjust_sizes(generated, expected):
+    """
+    Adjust sample sizes so that they're all >=5
+    """
+    
+    gen = [0]
+    exp = [0]
+    i = 0
+    for n in range(len(generated)):
+        gen[i] += generated[n]
+        exp[i] += expected[n]
+        if gen[i] >= 5 and exp[i] >= 5:
+            i += 1
+            gen.append(0)
+            exp.append(0)
+    
+    last = len(gen)-1
+    if gen[last] < 5 or exp[last] < 5:
+        gen[last-1] += gen[last]
+        exp[last-1] += exp[last]
 
+    # if everything else fails, raise an error
+    for n in range(len(generated)):
+        genn = generated[n]
+        expn = expected[n]
+        if genn < 5 or expn < 5:
+            raise ValueError(f"Failed to merge enough classes")
+
+    return gen, exp
 
 def chisq(generated, probabilities):
     """
@@ -16,26 +42,27 @@ def chisq(generated, probabilities):
     if len(generated) != len(probabilities):
         raise ValueError("Lists of different sizes")
 
+    expected = expected_quantities(generated, probabilities)
 
+    generated, expected = adjust_sizes(generated, expected)
 
     chi_value = 0
     for n in range(len(generated)):
         genn = generated[n]
-        expn = probabilities[n]
+        expn = expected[n]
 
-        if genn < 5 or expn < 5:
+        """if genn < 5 or expn < 5:
             list_name = "expected list" if expn < 5 else "generated list"
-            raise ValueError(f"Number of samples <5 in the {list_name} at position {n}")
+            raise ValueError(f"Number of samples <5 in the {list_name} at position {n}")"""
 
         chi_value += (expn - genn) ** 2 / expn
 
     liberty = len(generated)-1
-    if liberty not in levels.keys(): raise ValueError("Unsupported degree of liberty")
-    levels = critical_levels[liberty]
 
     results = {}
     for alpha in alphas:
-        results[alpha] = (chi_value, levels[alpha], chi_value < levels[alpha])
+        critical_level = chi2.ppf(1-alpha, liberty)
+        results[alpha] = (chi_value, critical_level, chi_value < critical_level)
     return results
 
 
@@ -55,4 +82,3 @@ def expected_quantities(generated, probabilities):
     total = sum(generated)
     expected = [total * prob for prob in probabilities]
     return expected
-
