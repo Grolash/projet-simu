@@ -1,6 +1,6 @@
 from math import factorial, floor
 from chisq import chisq
-from utils import sterling
+from utils import sterling, integer_splitter
 
 def get_r(generated, splitter, d):
     """
@@ -13,7 +13,7 @@ def get_r(generated, splitter, d):
     buckets = [0 for _ in range(k)]
 
     for value in generated:
-        buckets[splitter(value)] += 1
+        buckets[splitter(value, d)] += 1
 
     r = 0
     for bucket in buckets:
@@ -24,7 +24,7 @@ def get_r(generated, splitter, d):
 
     return r, exp_r
 
-def poker_test(values, k, d, splitter):
+def poker_test(values, k, d=10, splitter=integer_splitter):
 
     if len(values) % k != 0:
         raise ValueError("The given value list is not a multiple of the given k value")
@@ -37,11 +37,3 @@ def poker_test(values, k, d, splitter):
         expected.append(exp)
 
     return chisq(generated, expected)
-
-def integer_splitter(value):
-    if not (0 <= value <= 9): raise ValueError("This splitter only accepts integer values between 0 and 9")
-    return value
-
-def interval_splitter(value):
-    if not(0 <= value < 1): raise ValueError("This splitter only accepts float values between 0 and 1")
-    return floor(value*6)
