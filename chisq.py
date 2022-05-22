@@ -7,7 +7,7 @@ def adjust_sizes(generated, expected):
     """
     Adjust sample sizes so that they're all >=5
     """
-    
+
     gen = [0]
     exp = [0]
     i = 0
@@ -18,7 +18,7 @@ def adjust_sizes(generated, expected):
             i += 1
             gen.append(0)
             exp.append(0)
-    
+
     last = len(gen)-1
     if gen[last] < 5 or exp[last] < 5:
         gen[last-1] += gen[last]
@@ -82,3 +82,4 @@ def expected_quantities(generated, probabilities):
     total = sum(generated)
     expected = [total * prob for prob in probabilities]
     return expected
+
