@@ -11,3 +11,13 @@ def sterling(k, r):
         sterling_dict[(k, r)] = res
 
     return res
+
+
+
+def integer_splitter(value, d):
+    if not (0 <= value <= 9): raise ValueError("This splitter only accepts integer values between 0 and 9")
+    return value
+
+def interval_splitter(value, d):
+    if not(0 <= value < 1): raise ValueError("This splitter only accepts float values between 0 and 1")
+    return floor(value*d)
