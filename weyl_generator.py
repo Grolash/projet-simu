@@ -6,12 +6,17 @@ from pi import get_digits
 class WeylGenerator:
 
     def __init__(self):
-        self.seed = int('0b1' + bin(datetime.datetime.now().microsecond % 100000) + '1')
+        self.seed = 0
+        self.update_seed()
         # seed must begin with 1 and end with 1 (ex: 100000000001)
         self.x = 0
         self.w = 0
+        self.iter = 0
 
     def next(self):
+        self.iter += 1
+        if self.iter >= 20:
+            self.update_seed()
         self.x = self.x * self.x % 1000000
         self.w += self.seed % 1000000
         self.x += self.w % 1000000
@@ -20,3 +25,6 @@ class WeylGenerator:
         for i in range(6):
             random += get_digits()[i + self.x]
         return int(random)
+
+    def update_seed(self):
+        self.seed = int('0b1' + bin(datetime.datetime.now().microsecond % 100000) + '1')
