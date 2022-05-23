@@ -27,8 +27,10 @@ if __name__ == "__main__":
 
         print(res)
 
-    res, generated, expected = poker_test([int(d) for d in pi_list[:100]], k=10, precision=1)
-    print(res)
+    # res, generated, expected = poker_test([int(d) for d in pi_list[:100]], k=10, precision=1)
+    # print(res)
+
+    res, generated, expected = collector_test("pi", precision=1)
 
 
 

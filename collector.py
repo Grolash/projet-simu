@@ -42,7 +42,7 @@ def get_cover_pi_distr(pi_digits):
             cover_len = 0
             categories = [0 for i in range(10)]
             while 0 in categories:
-                categories[pi_digits[pi_index]] += 1
+                categories[int(pi_digits[pi_index])] += 1
                 cover_len += 1
                 pi_index += 1
             covers[cover_len] += 1

@@ -4,7 +4,7 @@ sterling_dict = {}
 
 def sterling(k, r):
 
-    if k == 1 or k == r:
+    if r == 1 or k == r:
         return 1
 
     res = sterling_dict.get(k, r)

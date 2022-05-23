@@ -8,6 +8,10 @@ def adjust_sizes(generated, expected):
     Adjust sample sizes so that they're all >=5
     """
 
+    
+    print(generated)
+    print(expected)
+
     gen = [0]
     exp = [0]
     i = 0
@@ -31,9 +35,9 @@ def adjust_sizes(generated, expected):
     print(exp)
 
     # if everything else fails, raise an error
-    for n in range(len(generated)):
-        genn = generated[n]
-        expn = expected[n]
+    for n in range(len(gen)):
+        genn = gen[n]
+        expn = exp[n]
         if genn < 5 or expn < 5:
             raise ValueError(f"Failed to merge enough classes")
 
@@ -50,7 +54,7 @@ def chisq(generated, probabilities):
 
     expected = expected_quantities(generated, probabilities)
 
-    print(expected)
+    # print(expected)
 
     generated, expected = adjust_sizes(generated, expected)
 
@@ -90,8 +94,10 @@ def expected_quantities(generated, probabilities):
     Takes in the expected probabilities and outputs them times the adjusted to the size of generated data
     """
     total = sum(generated)
-    print(generated)
-    print(total) #TODO REMOVE
+    # total_prob = sum(probabilities)
+    # print(generated)
+    # print(total) #TODO REMOVE
     expected = [total * prob for prob in probabilities]
+    # expected = [total * prob / total_prob for prob in probabilities]
     return expected
 

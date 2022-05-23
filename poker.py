@@ -2,18 +2,17 @@ from math import factorial
 from chisq import chisq
 from utils import sterling
 
-def get_r(generated, precision):
+def get_r(hand, precision):
     """
-    Finds the r value of the generated set
-    generated is a small subset of size k, not the whole thing
-    splitter should be the function that determines the bucket of a given value
-    d is the number of buckets to split into
+    Finds the r value of the given hand 
+    hand is a small subset of the generated set, size k
+    precision determines the number of buckets to split into
     """
-    k = len(generated)
+    k = len(hand)
     d = 10**precision
     buckets = [0 for _ in range(d)]
 
-    for value in generated:
+    for value in hand:
         bucket = int(str(value)[:precision]) if isinstance(value, int) else int(str(value)[2:precision])
         buckets[bucket] += 1
 
@@ -22,7 +21,13 @@ def get_r(generated, precision):
         if bucket > 0:
             r += 1
 
+    # exp_r = (factorial(k) / (k**k * factorial(k-r) * sterling(r, k))) * (r/k) * (k - r)
     exp_r = (sterling(k, r) * factorial(d)) / (factorial(d-r) * d**k)
+
+    acc = 0
+    for r2 in range(d):
+        acc+= (sterling(k, r2) * factorial(d)) / (factorial(d-r2) * d**k)
+    print()
 
     return r, exp_r
 
