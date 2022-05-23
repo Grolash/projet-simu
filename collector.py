@@ -13,6 +13,7 @@ def get_cover_generated(generation, precision):
         len_cover += 1
     return len_cover
 
+
 def get_cover_gen_distr(generation, precision=1):
     """
     This algorithm seems in O(n^3) but in fact each "failure" to fill categories[key] contributes to fill
@@ -25,29 +26,32 @@ def get_cover_gen_distr(generation, precision=1):
     for index in categories[:30]:
         while categories[index] < 10:
             cover_len = get_cover_generated(generation, precision)
+            while len(categories) <= cover_len:
+                categories.append(0)
             categories[cover_len] += 1
     return categories
 
+
 def get_cover_pi_distr(pi_digits):
     """
-    This algorithm seems in O(n^3) but in fact each "failure" to fill categories[key] contributes to fill
-    categories[other key]. By the time categories[key] > 10, most categories[other key] are at least partially filled.
     :param pi_digits: list of 1 million digits of pi
     :return: the cover distribution of pi digits
     """
-    covers = [0 for _ in range(30)]
+    covers = [0 for _ in range(50)]  # 50 is arbitrary
     pi_index = 0
-    for index in covers[:30]:
-        while covers[index] < 10:
-            cover_len = 0
-            categories = [0 for i in range(10)]
-            while 0 in categories:
-                categories[int(pi_digits[pi_index])] += 1
-                cover_len += 1
-                pi_index += 1
-            covers[cover_len] += 1
+    while pi_index < 1000000:
+        cover_len = 0
+        categories = [0 for _ in range(10)]
+        while (0 in categories) & (pi_index < 1000000):
+            categories[int(str(pi_digits)[pi_index])] += 1
+            cover_len += 1
+            pi_index += 1
+        while len(covers) <= cover_len:
+            covers.append(0)
+        covers[cover_len] += 1
 
     return covers
+
 
 def get_distr_prob(size_distr):
     """
@@ -57,11 +61,14 @@ def get_distr_prob(size_distr):
     """
     categories = []
     for t in range(10, size_distr):
-        categories[t] = 1 - sterling(t-1, 10) * factorial(10) / 10**(t-1)
+        while len(categories) <= t:
+            categories.append(0)
+        categories[t] = 1 - sterling(t - 1, 10) * factorial(10) / 10 ** (t - 1)
     return categories
 
+
 def collector_test(generation, precision=1):
-    if generation is "pi":
+    if generation == "pi":
         generated = get_cover_pi_distr(get_digits())
         expected = get_distr_prob(len(generated))
 
@@ -69,4 +76,4 @@ def collector_test(generation, precision=1):
         generated = get_cover_gen_distr(generation, precision)
         expected = get_distr_prob(len(generated))
 
-    chisq(generated, expected)
+    return chisq(generated, expected)
