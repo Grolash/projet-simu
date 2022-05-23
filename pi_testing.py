@@ -27,10 +27,15 @@ if __name__ == "__main__":
 
         print(res)
 
-    res, generated, expected = poker_test([int(pi_list[i*5 : (i+1)*5]) for i in range((10**6)//5)])
+    #res, generated, expected = poker_test([int(pi_list[i*5 : (i+1)*5]) for i in range((10**6)//5)])
     # print(res)
 
-    # res, generated, expected = collector_test("pi", precision=1)
-
+    res, generated, expected = collector_test("pi", precision=1)
+    print("Sum(generated) :")
+    print(sum(generated))
+    print("Sum(expected):")
+    print(sum(expected))
+    print("RES:")
+    print(res)
 
 
