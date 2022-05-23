@@ -12,9 +12,8 @@ def poker_test(values, k=None):
 
     generated = [0 for _ in range(k)]
     for value in values:
-        value_digits = str(value)
         buckets = [0 for _ in range(d)]
-        for digit in value_digits:
+        for digit in value:
             buckets[int(digit)] += 1
         r = 0
         for bucket in buckets:

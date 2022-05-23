@@ -21,16 +21,29 @@ if __name__ == "__main__":
         plt.ylim(min(generated)-100, max(generated)+100)
         plt.legend()
 
-        plt.savefig("./outputs/pi_histogram", dpi=200)
+        plt.savefig("./outputs/pi_histogram_chisq", dpi=200)
         plt.cla()
         # plt.show()
 
         print(res)
 
-    res, generated, expected = poker_test([int(pi_list[i*5 : (i+1)*5]) for i in range((10**6)//5)])
-    # print(res)
+    handsize = 10
+    res, generated, expected, labels = poker_test([pi_list[i*handsize : (i+1)*handsize] for i in range((10**6)//handsize)], handsize)
 
-    # res, generated, expected = collector_test("pi", precision=1)
+    print(generated)
+    print(expected)
+
+    plt.bar(labels, generated, alpha=0.5, label="Real sample count")
+    plt.bar(labels, expected, alpha=0.5, color="red", label="Expected sample count")
+    # plt.ylim(min(generated)-100, max(generated)+100)
+    plt.legend()
+
+    # plt.savefig("./outputs/pi_histogram_poker", dpi=200)
+    # plt.cla()
+
+    plt.show()
+
+    print(res)
 
 
 

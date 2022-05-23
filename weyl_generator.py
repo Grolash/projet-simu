@@ -15,8 +15,8 @@ class WeylGenerator:
 
     def next(self):
         self.iter += 1
-        if self.iter >= 20:
-            self.update_seed()
+        # if self.iter >= 20:
+        #     self.update_seed()
         self.x = self.x * self.x % 1000000
         self.w += self.seed % 1000000
         self.x += self.w % 1000000
@@ -27,4 +27,4 @@ class WeylGenerator:
         return int(random)
 
     def update_seed(self):
-        self.seed = int('0b1' + bin(datetime.datetime.now().microsecond % 100000) + '1')
+        self.seed = int('0' + str(bin(datetime.datetime.now().microsecond % 100000))[2:] + '1', 2)

@@ -1,13 +1,15 @@
+import datetime
+
 from pi import get_digits
 
 
 class PiSeedWeylGenerator:
 
     def __init__(self):
-        self.seed = 0
+        self.seed = int('0b1' + str(bin(datetime.datetime.now().microsecond % 100000))[2:] + '1')
         self.pi = get_digits()
         self.pi_index = 0
-        self.update_seed()
+        # self.update_seed()
         self.x = 0
         self.w = 0
 

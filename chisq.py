@@ -3,29 +3,34 @@ from scipy.stats import chi2
 alphas = [0.1, 0.05, 0.01, 0.001]
 
 
-def adjust_sizes(generated, expected):
+def adjust_sizes(generated, expected, label):
     """
     Adjust sample sizes so that they're all >=5
     """
 
     gen = [0]
     exp = [0]
+    lab = [""]
     i = 0
     for n in range(len(generated)):
         gen[i] += generated[n]
         exp[i] += expected[n]
+        lab[i] += label[n] if lab[i] == "" else ","+label[n]
         if gen[i] >= 5 and exp[i] >= 5:
             i += 1
             if n < len(generated)-1:
                 gen.append(0)
                 exp.append(0)
+                lab.append("")
 
     last = len(gen)-1
     if (gen[last] < 5 or exp[last] < 5) and last > 0:
         gen[last-1] += gen[last]
         exp[last-1] += exp[last]
+        lab[last-1] += lab[last]
         gen.pop()
         exp.pop()
+        lab.pop()
 
     # if everything else fails, raise an error
     for n in range(len(gen)):
@@ -34,7 +39,7 @@ def adjust_sizes(generated, expected):
         if genn < 5 or expn < 5:
             raise ValueError(f"Failed to merge enough classes")
 
-    return gen, exp
+    return gen, exp, lab
 
 def chisq(generated, probabilities):
     """
@@ -51,10 +56,12 @@ def chisq_unprocessed(generated, expected):
     if len(generated) != len(expected):
         raise ValueError("Lists of different sizes")
 
-    generated, expected = adjust_sizes(generated, expected)
-
     # print(generated)
     # print(expected)
+
+    labels = [str(n) for n in range(1, len(generated)+1)]
+
+    generated, expected, labels = adjust_sizes(generated, expected, labels)
 
     chi_value = 0
     for n in range(len(generated)):
@@ -73,14 +80,14 @@ def chisq_unprocessed(generated, expected):
     for alpha in alphas:
         critical_level = chi2.ppf(1-alpha, liberty)
         results[alpha] = (chi_value, critical_level, chi_value < critical_level)
-    return results, generated, expected #the last two are here for convenience in making the histograms
+    return results, generated, expected, labels #the last two are here for convenience in making the histograms
 
 
 # TODO: This will need to go in the pi-testing part
 def generated_quantities(digit_list):
     distribution_list = [0 for i in range(10)]
     for d in digit_list:
-        distribution_list[int(d)] += 1
+        distribution_list[int(str(d)[0])] += 1
     return distribution_list
 
 
