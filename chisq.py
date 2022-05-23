@@ -16,13 +16,19 @@ def adjust_sizes(generated, expected):
         exp[i] += expected[n]
         if gen[i] >= 5 and exp[i] >= 5:
             i += 1
-            gen.append(0)
-            exp.append(0)
+            if n < len(generated)-1:
+                gen.append(0)
+                exp.append(0)
 
     last = len(gen)-1
-    if gen[last] < 5 or exp[last] < 5:
+    if (gen[last] < 5 or exp[last] < 5) and last > 0:
         gen[last-1] += gen[last]
         exp[last-1] += exp[last]
+        gen.pop()
+        exp.pop()
+
+    print(gen)
+    print(exp)
 
     # if everything else fails, raise an error
     for n in range(len(generated)):
@@ -44,7 +50,12 @@ def chisq(generated, probabilities):
 
     expected = expected_quantities(generated, probabilities)
 
+    print(expected)
+
     generated, expected = adjust_sizes(generated, expected)
+
+    # print(generated)
+    # print(expected)
 
     chi_value = 0
     for n in range(len(generated)):
@@ -63,16 +74,15 @@ def chisq(generated, probabilities):
     for alpha in alphas:
         critical_level = chi2.ppf(1-alpha, liberty)
         results[alpha] = (chi_value, critical_level, chi_value < critical_level)
-    return results
+    return results, generated, expected #the last two are here for convenience in making the histograms
 
 
 # TODO: This will need to go in the pi-testing part
 def generated_quantities(digit_list):
     distribution_list = [0 for i in range(10)]
     for d in digit_list:
-        distribution_list[digit_list[d]] += 1
+        distribution_list[int(d)] += 1
     return distribution_list
-
 
 
 def expected_quantities(generated, probabilities):
@@ -80,6 +90,8 @@ def expected_quantities(generated, probabilities):
     Takes in the expected probabilities and outputs them times the adjusted to the size of generated data
     """
     total = sum(generated)
+    print(generated)
+    print(total) #TODO REMOVE
     expected = [total * prob for prob in probabilities]
     return expected
 

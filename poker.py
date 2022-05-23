@@ -1,8 +1,8 @@
-from math import factorial, floor
+from math import factorial
 from chisq import chisq
-from utils import sterling, integer_splitter
+from utils import sterling
 
-def get_r(generated, splitter, precision):
+def get_r(generated, precision):
     """
     Finds the r value of the generated set
     generated is a small subset of size k, not the whole thing
@@ -10,12 +10,12 @@ def get_r(generated, splitter, precision):
     d is the number of buckets to split into
     """
     k = len(generated)
-    buckets = [0 for _ in range(k)]
     d = 10**precision
+    buckets = [0 for _ in range(d)]
 
     for value in generated:
-        bucket = int(str(value)[2:precision])
-        buckets[splitter(value, d)] += 1
+        bucket = int(str(value)[:precision]) if isinstance(value, int) else int(str(value)[2:precision])
+        buckets[bucket] += 1
 
     r = 0
     for bucket in buckets:
@@ -34,8 +34,11 @@ def poker_test(values, k, precision):
     generated = []
     expected = []
     for n in range(len(values)//k-1):
-        gen, exp = get_r(values[n*k, (n+1)*k], precision)
+        gen, exp = get_r(values[n*k : (n+1)*k], precision)
         generated.append(gen)
         expected.append(exp)
+
+    # print(generated)
+    # print(expected)
 
     return chisq(generated, expected)
