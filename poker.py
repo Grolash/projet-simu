@@ -1,49 +1,27 @@
 from math import factorial
-from chisq import chisq
+from chisq import chisq_unprocessed
 from utils import sterling
 
-def get_r(hand, precision):
+def poker_test(values, k=None):
     """
-    Finds the r value of the given hand 
-    hand is a small subset of the generated set, size k
-    precision determines the number of buckets to split into
+    Poker test, values imputed must be multiplied bu 10**k beforehand
     """
-    k = len(hand)
-    d = 10**precision
-    buckets = [0 for _ in range(d)]
 
-    for value in hand:
-        bucket = int(str(value)[:precision]) if isinstance(value, int) else int(str(value)[2:precision])
-        buckets[bucket] += 1
+    d = 10
+    if k == None : k = len(str(values[0]))
 
-    r = 0
-    for bucket in buckets:
-        if bucket > 0:
-            r += 1
+    generated = [0 for _ in range(k)]
+    for value in values:
+        value_digits = str(value)
+        buckets = [0 for _ in range(d)]
+        for digit in value_digits:
+            buckets[int(digit)] += 1
+        r = 0
+        for bucket in buckets:
+            if bucket > 0:
+                r += 1
+        generated[r-1] += 1
 
-    # exp_r = (factorial(k) / (k**k * factorial(k-r) * sterling(r, k))) * (r/k) * (k - r)
-    exp_r = (sterling(k, r) * factorial(d)) / (factorial(d-r) * d**k)
+    expected = [(sterling(k, r) * factorial(d) * len(values)) / (factorial(d-r) * d**k) for r in range(1, k+1)]
 
-    acc = 0
-    for r2 in range(d):
-        acc+= (sterling(k, r2) * factorial(d)) / (factorial(d-r2) * d**k)
-    print()
-
-    return r, exp_r
-
-def poker_test(values, k, precision):
-
-    if len(values) % k != 0:
-        raise ValueError("The given value list is not a multiple of the given k value")
-
-    generated = []
-    expected = []
-    for n in range(len(values)//k-1):
-        gen, exp = get_r(values[n*k : (n+1)*k], precision)
-        generated.append(gen)
-        expected.append(exp)
-
-    # print(generated)
-    # print(expected)
-
-    return chisq(generated, expected)
+    return chisq_unprocessed(generated, expected)

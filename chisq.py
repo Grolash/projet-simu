@@ -8,10 +8,6 @@ def adjust_sizes(generated, expected):
     Adjust sample sizes so that they're all >=5
     """
 
-    
-    print(generated)
-    print(expected)
-
     gen = [0]
     exp = [0]
     i = 0
@@ -31,9 +27,6 @@ def adjust_sizes(generated, expected):
         gen.pop()
         exp.pop()
 
-    print(gen)
-    print(exp)
-
     # if everything else fails, raise an error
     for n in range(len(gen)):
         genn = gen[n]
@@ -48,13 +41,15 @@ def chisq(generated, probabilities):
     Takes in a list containing the generated and expected counts
     for each value, and uses them to calculate the value used in chi² test
     """
-
-    if len(generated) != len(probabilities):
-        raise ValueError("Lists of different sizes")
-
+    
     expected = expected_quantities(generated, probabilities)
+    return chisq_unprocessed(generated, expected)
 
-    # print(expected)
+
+def chisq_unprocessed(generated, expected):
+
+    if len(generated) != len(expected):
+        raise ValueError("Lists of different sizes")
 
     generated, expected = adjust_sizes(generated, expected)
 

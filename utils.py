@@ -1,15 +1,8 @@
-from math import floor
-
-sterling_dict = {}
-
 def sterling(k, r):
 
     if r == 1 or k == r:
         return 1
 
-    res = sterling_dict.get(k, r)
-    if res == None:
-        res = sterling(k-1, r-1) + r * sterling(k-1, r)
-        sterling_dict[(k, r)] = res
+    res = sterling(k-1, r-1) + r * sterling(k-1, r)
 
     return res
