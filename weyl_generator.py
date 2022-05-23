@@ -4,6 +4,7 @@ from pi import get_digits
 
 
 class WeylGenerator:
+
     def __init__(self):
         self.seed = int('0b1' + bin(datetime.datetime.now().microsecond % 100000) + '1')
         # seed must begin with 1 and end with 1 (ex: 100000000001)
