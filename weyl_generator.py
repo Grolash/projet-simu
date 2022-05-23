@@ -17,5 +17,5 @@ class WeylGenerator:
         self.x = int(str(self.x)[len(self.x)/2:] + str(self.x)[:len(self.x)/2])
         random = ''
         for i in range(6):
-            random += get_digits()[i]
+            random += get_digits()[i + self.x]
         return int(random)
