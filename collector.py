@@ -14,31 +14,33 @@ def get_cover_generated(generation, precision):
     return len_cover
 
 
-def get_cover_gen_distr(generation, precision=1):
+def get_cover_gen_distr(generation, precision=1, length_of_testing = 70):
     """
     This algorithm seems in O(n^3) but in fact each "failure" to fill categories[key] contributes to fill
     categories[other key]. By the time categories[key] > 10, most categories[other key] are at least partially filled.
+    :param length_of_testing: length at which the test merges the further probabilities
     :param generation: method of generation
     :param precision: number of digits to consider while making categories
     :return: the cover distribution of the generation process
     """
-    end = 80
+    end = length_of_testing
     categories = [0 for _ in range(end+1)]
     for index in categories[10:end]:
         while categories[index] < 10:
             cover_len = get_cover_generated(generation, precision)
             if cover_len >= end:
                 categories[end] += 1
-            else: categories[cover_len] += 1
+            elif cover_len >= 10: categories[cover_len] += 1
     return categories
 
 
-def get_cover_pi_distr(pi_digits):
+def get_cover_pi_distr(pi_digits, length_of_testing = 70):
     """
+    :param length_of_testing: length at which the test merges the further probabilities
     :param pi_digits: list of 1 million digits of pi
     :return: the cover distribution of pi digits
     """
-    end = 80
+    end = length_of_testing
     covers = [0 for _ in range(end+1)]  # 50 is arbitrary
     pi_index = 0
     while pi_index < 1000000:
@@ -50,7 +52,7 @@ def get_cover_pi_distr(pi_digits):
             pi_index += 1
         if cover_len >= end:
             covers[end] += 1
-        else: covers[cover_len] += 1
+        elif cover_len >= 10: covers[cover_len] += 1
 
     return covers
 
@@ -79,11 +81,7 @@ def q(r):
 def collector_test(generation, precision=1):
     if generation == "pi":
         generated = get_cover_pi_distr(get_digits())
-        print(len(generated))
-        print(generated)
         expected = get_distr_prob(len(generated))
-        print(len(expected))
-        print(expected)
 
     else:
         generated = get_cover_gen_distr(generation, precision)
