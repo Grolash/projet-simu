@@ -87,4 +87,6 @@ def collector_test(generation, precision=1, length_of_testing = 70):
         generated = get_cover_gen_distr(generation, precision, length_of_testing)
         expected = get_distr_prob(len(generated))
 
-    return chisq(generated[10:], expected[10:])
+    labels = [str(n+10) for n in range(len(generated))]
+    
+    return chisq(generated[10:], expected[10:], labels)

@@ -3,7 +3,7 @@ import datetime
 from pi import get_digits
 
 
-class DisplacementGenerator:
+class HashGenerator:
 
     def __init__(self, seed=None):
         if seed == None:
@@ -13,9 +13,10 @@ class DisplacementGenerator:
         self.pi = get_digits()
         self.offset = 300007# TODO: Find a good manner to calclulate the offset, static offset is a pretty bad idea overall
 
-    def next(self):
+    def next(self, digits=False):
         word = ""
         for i in range(10):
             word += self.pi[(self.n+i*self.offset)%1000000]
         self.n += 1
-        return word
+        if digits: return word
+        else: return float("0."+word)

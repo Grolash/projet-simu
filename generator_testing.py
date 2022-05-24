@@ -3,18 +3,20 @@ from unittest import result
 import matplotlib.pyplot as plt
 from chisq import chisq, generated_quantities
 from poker import poker_test
-from collector import collector_test 
+from collector import collector_test
+from time_generator import TimeGenerator 
 from weyl_generator import WeylGenerator
-from displacement_generator import DisplacementGenerator
+# from displacement_generator import DisplacementGenerator
 
 if __name__ == "__main__":
 
+    gen = TimeGenerator()
     # gen = WeylGenerator()
-    gen = DisplacementGenerator()
-    gen.seed = 0 # For consistency
+    # gen = DisplacementGenerator()
+    gen.index = 0 # For consistency
     # random.seed(0)
 
-    mersenne_list = [str(gen.next()) for _ in range((10**6))]
+    mersenne_list = [str(gen.next()) for _ in range((10**5))]
 
     # if False:
         

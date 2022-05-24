@@ -41,17 +41,17 @@ def adjust_sizes(generated, expected, label):
 
     return gen, exp, lab
 
-def chisq(generated, probabilities):
+def chisq(generated, probabilities, labels=None):
     """
     Takes in a list containing the generated and expected counts
     for each value, and uses them to calculate the value used in chi² test
     """
     
     expected = expected_quantities(generated, probabilities)
-    return chisq_unprocessed(generated, expected)
+    return chisq_unprocessed(generated, expected, labels)
 
 
-def chisq_unprocessed(generated, expected):
+def chisq_unprocessed(generated, expected, labels=None):
 
     if len(generated) != len(expected):
         raise ValueError("Lists of different sizes")
@@ -59,7 +59,7 @@ def chisq_unprocessed(generated, expected):
     # print(generated)
     # print(expected)
 
-    labels = [str(n) for n in range(1, len(generated)+1)]
+    if labels == None : labels = [str(n) for n in range(1, len(generated)+1)]
 
     generated, expected, labels = adjust_sizes(generated, expected, labels)
 

@@ -30,8 +30,9 @@ if __name__ == "__main__":
     handsize = 10
     #res, generated, expected, labels = poker_test([pi_list[i*handsize : (i+1)*handsize] for i in range((10**6)//handsize)], handsize)
     res, generated, expected, labels = collector_test("pi")
-    print(generated)
-    print(expected)
+    # print(generated)
+    # print(expected)
+    labels[-1] += "+"
 
     plt.bar(labels, generated, alpha=0.5, label="Real sample count")
     plt.bar(labels, expected, alpha=0.5, color="red", label="Expected sample count")

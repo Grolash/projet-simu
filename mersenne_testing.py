@@ -10,7 +10,7 @@ if __name__ == "__main__":
 
     random.seed(0)
 
-    mersenne_list = [str(random.random())[2:12] for _ in range((10**5))]
+    mersenne_list = [str(random.random())[2:12] for _ in range((10**6))]
 
     # if False:
         
@@ -24,8 +24,8 @@ if __name__ == "__main__":
     plt.legend()
 
     # plt.savefig("./outputs/mersenne_histogram_chisq", dpi=200)
-    plt.cla()
-    # plt.show()
+    # plt.cla()
+    plt.show()
 
     print(res)
 
