@@ -78,13 +78,13 @@ def q(r):
     return 1 - (sterling(r, 10) * factorial(10) / (10 ** r))
 
 
-def collector_test(generation, precision=1):
+def collector_test(generation, precision=1, length_of_testing = 70):
     if generation == "pi":
-        generated = get_cover_pi_distr(get_digits())
+        generated = get_cover_pi_distr(get_digits(), length_of_testing)
         expected = get_distr_prob(len(generated))
 
     else:
-        generated = get_cover_gen_distr(generation, precision)
+        generated = get_cover_gen_distr(generation, precision, length_of_testing)
         expected = get_distr_prob(len(generated))
 
     return chisq(generated[10:], expected[10:])
