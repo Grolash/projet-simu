@@ -22,13 +22,14 @@ def get_cover_gen_distr(generation, precision=1):
     :param precision: number of digits to consider while making categories
     :return: the cover distribution of the generation process
     """
-    categories = [0 for _ in range(30)]
-    for index in categories[:30]:
+    end = 40
+    categories = [0 for _ in range(end+1)]
+    for index in categories[10:end]:
         while categories[index] < 10:
             cover_len = get_cover_generated(generation, precision)
-            while len(categories) <= cover_len:
-                categories.append(0)
-            categories[cover_len] += 1
+            if cover_len >= end:
+                categories[end] += 1
+            else: categories[cover_len] += 1
     return categories
 
 
@@ -37,7 +38,8 @@ def get_cover_pi_distr(pi_digits):
     :param pi_digits: list of 1 million digits of pi
     :return: the cover distribution of pi digits
     """
-    covers = [0 for _ in range(50)]  # 50 is arbitrary
+    end = 40
+    covers = [0 for _ in range(end+1)]  # 50 is arbitrary
     pi_index = 0
     while pi_index < 1000000:
         cover_len = 0
@@ -46,9 +48,9 @@ def get_cover_pi_distr(pi_digits):
             categories[int(str(pi_digits)[pi_index])] += 1
             cover_len += 1
             pi_index += 1
-        while len(covers) <= cover_len:
-            covers.append(0)
-        covers[cover_len] += 1
+        if cover_len >= end:
+            covers[end] += 1
+        else: covers[cover_len] += 1
 
     return covers
 
@@ -59,21 +61,28 @@ def get_distr_prob(size_distr):
     :param size_distr:
     :return:
     """
-    categories = []
-    for t in range(10, size_distr):
-        while len(categories) <= t:
-            categories.append(0)
-        categories[t] = 1 - sterling(t - 1, 10) * factorial(10) / 10 ** (t - 1)
+    categories = [(q(r-1)-q(r)) for r in range(size_distr-1)]
+    categories.append(1-sterling(size_distr-2, 10)*factorial(10)/(10**(size_distr-2)))
     return categories
+
+
+def q(r):
+    if r < 10:
+        return 0
+    return 1 - (sterling(r, 10) * factorial(10) / (10 ** r))
 
 
 def collector_test(generation, precision=1):
     if generation == "pi":
         generated = get_cover_pi_distr(get_digits())
+        print(len(generated))
+        print(generated)
         expected = get_distr_prob(len(generated))
+        print(len(expected))
+        print(expected)
 
     else:
         generated = get_cover_gen_distr(generation, precision)
         expected = get_distr_prob(len(generated))
 
-    return chisq(generated, expected)
+    return chisq(generated[10:], expected[10:])

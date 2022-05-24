@@ -28,8 +28,8 @@ if __name__ == "__main__":
         print(res)
 
     handsize = 10
-    res, generated, expected, labels = poker_test([pi_list[i*handsize : (i+1)*handsize] for i in range((10**6)//handsize)], handsize)
-
+    #res, generated, expected, labels = poker_test([pi_list[i*handsize : (i+1)*handsize] for i in range((10**6)//handsize)], handsize)
+    res, generated, expected, labels = collector_test("pi")
     print(generated)
     print(expected)
 
