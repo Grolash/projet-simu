@@ -5,19 +5,25 @@ from chisq import chisq, generated_quantities
 from poker import poker_test
 from collector import collector_test 
 from weyl_generator import WeylGenerator
+from displacement_generator import DisplacementGenerator
 
 if __name__ == "__main__":
 
-    gen = WeylGenerator()
+    # gen = WeylGenerator()
+    gen = DisplacementGenerator()
     gen.seed = 0 # For consistency
     # random.seed(0)
 
-    mersenne_list = [str(gen.next()) for _ in range((10**5))]
+    mersenne_list = [str(gen.next()) for _ in range((10**6))]
 
     # if False:
         
     quantities = generated_quantities(mersenne_list)
     res, generated, expected, labels = chisq(quantities, [0.1 for _ in range(10)])
+
+    print("Values for the basic chisq test:")
+    print(generated)
+    print(expected)
 
     plt.bar(labels, generated)
     plt.axhline(expected[0], color="red", label="Expected value")
