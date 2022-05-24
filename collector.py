@@ -22,7 +22,7 @@ def get_cover_gen_distr(generation, precision=1):
     :param precision: number of digits to consider while making categories
     :return: the cover distribution of the generation process
     """
-    end = 40
+    end = 80
     categories = [0 for _ in range(end+1)]
     for index in categories[10:end]:
         while categories[index] < 10:
@@ -38,7 +38,7 @@ def get_cover_pi_distr(pi_digits):
     :param pi_digits: list of 1 million digits of pi
     :return: the cover distribution of pi digits
     """
-    end = 40
+    end = 80
     covers = [0 for _ in range(end+1)]  # 50 is arbitrary
     pi_index = 0
     while pi_index < 1000000:
@@ -61,10 +61,14 @@ def get_distr_prob(size_distr):
     :param size_distr:
     :return:
     """
-    categories = [(q(r-1)-q(r)) for r in range(size_distr-1)]
+    categories = [(p(r)-p(r-1)) for r in range(size_distr-1)]
     categories.append(1-sterling(size_distr-2, 10)*factorial(10)/(10**(size_distr-2)))
     return categories
 
+def p(r):
+    if r < 10:
+        return 0
+    return sterling(r, 10)*factorial(10)/(10**r)
 
 def q(r):
     if r < 10:
