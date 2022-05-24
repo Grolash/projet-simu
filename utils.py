@@ -5,7 +5,7 @@ dico = {}
 def sterling(k, r):
 
     # formula from: https://keisan.casio.com/exec/system/1292214964
-    return sum((-1)**(r-i)*(f(r)/(f(i)*f(r-i)))*i**k for i in range(r+1)) / f(r)
+    return sum((-1)**(r-j) * (f(r)/(f(j)*f(r-j)))*j**k for j in range(r+1)) / f(r)
 
 
     # Reaches recursion limit
@@ -23,3 +23,8 @@ def sterling(k, r):
     #     dico[(k, r)] = res
 
     # return res
+
+
+def display_results(results):
+    for alpha in results.keys():
+        print(f"Alpha value: {alpha}\tCritical value: {round(results[alpha][1], 3)}\t Calculated value: {round(results[alpha][0], 3)}\t Test result: {'Accepted' if results[alpha][1] else 'Rejected'}")

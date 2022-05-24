@@ -1,5 +1,5 @@
 from math import factorial
-from chisq import chisq_unprocessed
+from chisq import chisq
 from utils import sterling
 
 def poker_test(values, k=None):
@@ -21,6 +21,6 @@ def poker_test(values, k=None):
                 r += 1
         generated[r-1] += 1
 
-    expected = [(sterling(k, r) * factorial(d) * len(values)) / (factorial(d-r) * d**k) for r in range(1, k+1)]
+    expected = [(sterling(k, r) * factorial(d)) / (factorial(d-r) * d**k) for r in range(1, k+1)]
 
-    return chisq_unprocessed(generated, expected)
+    return chisq(generated, expected)
