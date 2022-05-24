@@ -18,7 +18,7 @@ class PiSeedWeylGenerator:
         self.w += self.seed % 1000000
         self.update_seed()
         self.x += self.w % 1000000
-        self.x = int(str(self.x)[len(self.x) / 2:] + str(self.x)[:len(self.x) / 2])
+        self.x = int(str(self.x)[len(str(self.x)) / 2:] + str(self.x)[:len(str(self.x)) / 2])
         random = ''
         for i in range(6):
             random += get_digits()[i + self.x]
