@@ -1,13 +1,10 @@
 # Testing the consistency of the digits of pi
-from unittest import result
 import matplotlib.pyplot as plt
 from chisq import chisq, generated_quantities
 from poker import poker_test
 from collector2 import collector_test
 from shuffle_generator import ShuffleGenerator
-from time_generator import TimeGenerator
 from utils import display_results 
-from weyl_generator import WeylGenerator
 # from displacement_generator import DisplacementGenerator
 
 if __name__ == "__main__":
@@ -84,6 +81,3 @@ if __name__ == "__main__":
     # plt.cla()
 
     plt.show()
-
-
-

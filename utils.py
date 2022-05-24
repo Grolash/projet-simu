@@ -27,4 +27,4 @@ def sterling(k, r):
 
 def display_results(results):
     for alpha in results.keys():
-        print(f"Alpha value: {alpha}\tCritical value: {round(results[alpha][1], 3)}\t Calculated value: {round(results[alpha][0], 3)}\t Test result: {'Accepted' if results[alpha][1] else 'Rejected'}")
+        print(f"Alpha value: {alpha}\tCritical value: {round(results[alpha][1], 3)}\t Calculated value: {round(results[alpha][0], 3)}\t Test result: {'Accepted' if results[alpha][2] else 'Rejected'}")

@@ -3,8 +3,9 @@ from unittest import result
 import matplotlib.pyplot as plt
 from chisq import chisq, generated_quantities
 from poker import poker_test
-from collector import collector_test 
+from collector2 import collector_test 
 from pi import get_digits
+from utils import display_results
 
 if __name__ == "__main__":
 
@@ -29,7 +30,7 @@ if __name__ == "__main__":
 
     handsize = 10
     #res, generated, expected, labels = poker_test([pi_list[i*handsize : (i+1)*handsize] for i in range((10**6)//handsize)], handsize)
-    res, generated, expected, labels = collector_test("pi")
+    res, generated, expected, labels = collector_test(pi_list)
     # print(generated)
     # print(expected)
     labels[-1] += "+"
@@ -42,6 +43,6 @@ if __name__ == "__main__":
     # plt.savefig("./outputs/pi_histogram_poker", dpi=200)
     # plt.cla()
 
-    plt.show()
+    display_results(res)
 
-    print(res)
+    plt.show()

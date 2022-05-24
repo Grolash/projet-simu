@@ -9,7 +9,8 @@ def get_cover_generated(generation, precision):
     len_cover = 0
     categories = [0 for _ in range(10 * precision)]
     while 0 in categories:
-        categories[int(str(generation)[2:precision])] += 1
+        index = int(str(generation())[2:2+precision])
+        categories[index] += 1
         len_cover += 1
     return len_cover
 
@@ -34,6 +35,7 @@ def get_cover_gen_distr(generation, precision=1, length_of_testing = 70):
     return categories
 
 
+
 def get_cover_pi_distr(pi_digits, length_of_testing = 70):
     """
     :param length_of_testing: length at which the test merges the further probabilities
@@ -47,7 +49,7 @@ def get_cover_pi_distr(pi_digits, length_of_testing = 70):
         cover_len = 0
         categories = [0 for _ in range(10)]
         while (0 in categories) & (pi_index < 1000000):
-            categories[int(str(pi_digits)[pi_index])] += 1
+            categories[int(pi_digits[pi_index])] += 1
             cover_len += 1
             pi_index += 1
         if cover_len >= end:

@@ -10,7 +10,7 @@ class TimeGenerator:
 
     def next(self, digits=True):
         random = ''
-        for i in range(10):
+        for i in range(7):
             random += self.pi[(i + self.index)%(len(self.pi))]
             self.index += 1
             if self.index >= 1000000:
