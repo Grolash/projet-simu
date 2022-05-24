@@ -12,4 +12,6 @@ class TimeGenerator:
         for i in range(6):
             random += get_digits()[i + self.index]
             self.index += 1
+            if self.index >= 1000000:
+                self.index = 0
         return int(random)
