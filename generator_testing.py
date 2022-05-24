@@ -13,7 +13,7 @@ if __name__ == "__main__":
     gen = TimeGenerator()
     # gen = WeylGenerator()
     # gen = DisplacementGenerator()
-    gen.index = 0 # For consistency
+    # gen.index = 0 # For consistency
     # random.seed(0)
 
     mersenne_list = [str(gen.next()) for _ in range((10**5))]

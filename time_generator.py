@@ -8,11 +8,12 @@ class TimeGenerator:
         self.index = datetime.datetime.now().microsecond % 100000
         self.pi = get_digits()
 
-    def next(self):
+    def next(self, digits=True):
         random = ''
         for i in range(10):
             random += self.pi[(i + self.index)%(len(self.pi))]
             self.index += 1
             if self.index >= 1000000:
                 self.index = 0
-        return int(random)
+        if digits: return random
+        else: return float("0."+random)
