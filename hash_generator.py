@@ -30,8 +30,8 @@ class HashGenerator:
 
             digits += d
             self.index += 1
-            # if self.index >= 10**6:
-            #     self.index = 0
+            if self.index >= M*10**6: # Generator's period
+                self.index = 0
 
         if digits: return digits
         else: return float("0."+digits)

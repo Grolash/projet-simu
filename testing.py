@@ -4,7 +4,7 @@ from chisq import chisq, generated_quantities
 from poker import poker_test
 from collector import collector_test
 from hash_generator import HashGenerator, M
-from utils import print_results 
+from utils import print_results, report_printer 
 from pi import get_digits
 import random
 
@@ -24,11 +24,11 @@ if __name__ == "__main__":
 
     methods = [
         {"name": "Digits of pi",
-         "list": get_digits()},
-        {"name": "Mersenne Twister",
-         "list": [str(random.random())[2:9] for _ in range((M*10**6))]},
-        {"name": "Pi-based generator",
-         "list": [str(gen.next()) for _ in range((M*10**6))]}
+         "list": get_digits()}
+        # {"name": "Mersenne Twister",
+        #  "list": [str(random.random())[2:9] for _ in range((M*10**6))]},
+        # {"name": "Pi-based generator",
+        #  "list": [str(gen.next()) for _ in range((M*10**6))]}
          ]
 
 
@@ -62,7 +62,7 @@ if __name__ == "__main__":
         handsize = len(numbers[0])
         if handsize == 1:
             # Means it's the pi digits list, this one needs more preporcessing done before giving it to the poker test
-            handsize = 10 # A multiple of 10**6, so every digit is included in the test
+            handsize = 7 # to stay in line with mersenne and our generator
             numbers2 = [numbers[i*handsize : (i+1)*handsize] for i in range((10**6)//handsize)]
         else: numbers2 = numbers
 
@@ -76,7 +76,7 @@ if __name__ == "__main__":
         plt.legend()
 
         print("="*5+" Poker Test results for "+name+" "+"="*5)
-        print_results(res)
+        report_printer(res)
         
         if DISPLAY: plt.show()
         else: 
